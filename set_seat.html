@@ -297,8 +297,24 @@
           totalPrice.textContent = (selectedSeatNumbers.length * seatPrice).toLocaleString();
         });
       });
+  
+      // "선택완료" 버튼 클릭 시 동작
+      const reserveButton = document.querySelector(".reserve-button");
+      reserveButton.addEventListener("click", () => {
+        if (selectedSeatNumbers.length === 0) {
+          alert("최소 하나의 좌석을 선택해야 합니다.");
+          return;
+        }
+  
+        // 선택된 정보를 URL 파라미터로 전달
+        const selectedSeatsParam = selectedSeatNumbers.join(",");
+        const redirectUrl = `Reservation_details.html?departure=${encodeURIComponent(departure)}&arrival=${encodeURIComponent(arrival)}&date=${encodeURIComponent(date)}&seats=${encodeURIComponent(selectedSeatsParam)}`;
+        
+        window.location.href = redirectUrl;
+      });
     });
   </script>
+  
   
 </body>
 </html>

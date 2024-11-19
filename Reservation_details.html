@@ -19,22 +19,23 @@
 
     /* 상단 내비게이션 스타일 */
     .navbar {
-            background-color: #fff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ddd;
+        background-color: #fff;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
         }
 
-        .navbar h1 {
-            font-size: 24px;
-            margin: 0;
-        }
+    .navbar h1 {
+        font-size: 24px;
+        margin: 0;
+        text-align: left;
+    }
 
-        .navbar a {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 14px;
-            margin-right: 10px;
-        }
+    .navbar a {
+        text-decoration: none;
+        color: #007bff;
+        font-size: 14px;
+        margin-right: 10px;
+    }
 
 
     .table-container {
@@ -113,61 +114,43 @@
       </tbody>
     </table>
     <div class="btn-container">
-      <button class="btn">예약 취소/환불</button>
+      <!-- 홈으로 돌아가기 버튼 -->
+      <a href="main.html" class="btn" style="text-decoration: none;">홈으로 돌아가기</a>
     </div>
   </div>
 
   <script>
-    // 샘플 데이터
-    const reservations = [
-      {
-        id: Math.random().toString(36).substr(2, 8), // 랜덤 ID 생성
-        departure: "서울",
-        arrival: "부산",
-        date: "2024-11-20",
-        departureTime: "14:00",
-        arrivalTime: "18:30",
-        seatNumber: "3A",
-        grade: "일반"
-      },
-      {
-        id: Math.random().toString(36).substr(2, 8),
-        departure: "인천",
-        arrival: "대전",
-        date: "2024-11-21",
-        departureTime: "09:00",
-        arrivalTime: "12:00",
-        seatNumber: "12B",
-        grade: "일반"
-      },
-      {
-        id: Math.random().toString(36).substr(2, 8),
-        departure: "대구",
-        arrival: "광주",
-        date: "2024-11-22",
-        departureTime: "16:00",
-        arrivalTime: "20:30",
-        seatNumber: "7C",
-        grade: "일반"
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const departure = urlParams.get("departure");
+      const arrival = urlParams.get("arrival");
+      const date = urlParams.get("date");
+      const seats = urlParams.get("seats");
+  
+      // 예약 정보를 동적으로 테이블에 추가
+      if (departure && arrival && date && seats) {
+        const tableBody = document.getElementById("reservation-table");
+        const seatList = seats.split(","); // 좌석 정보를 배열로 변환
+  
+        seatList.forEach((seat, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td><input type="checkbox"></td>
+            <td>${Math.random().toString(36).substr(2, 8)}</td> <!-- 랜덤 예약 ID -->
+            <td>${departure}</td>
+            <td>${arrival}</td>
+            <td>${date}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>${seat}</td>
+            <td>일반</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } else {
+        alert("예약 정보가 부족합니다.");
+        window.history.back();
       }
-    ];
-
-    // 예약 내역을 테이블에 추가
-    const tableBody = document.getElementById("reservation-table");
-    reservations.forEach((reservation) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td><input type="checkbox"></td>
-        <td>${reservation.id}</td>
-        <td>${reservation.departure}</td>
-        <td>${reservation.arrival}</td>
-        <td>${reservation.date}</td>
-        <td>${reservation.departureTime}</td>
-        <td>${reservation.arrivalTime}</td>
-        <td>${reservation.seatNumber}</td>
-        <td>${reservation.grade}</td>
-      `;
-      tableBody.appendChild(row);
     });
   </script>
 </body>
